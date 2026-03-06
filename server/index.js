@@ -4,6 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import joinRequestRoutes from "./routes/joinRequestRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +26,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "CollabSphere API running! 🚀" });
 });
+app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/joinrequests", joinRequestRoutes);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
