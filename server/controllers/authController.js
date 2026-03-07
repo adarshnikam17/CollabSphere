@@ -96,3 +96,17 @@ export const getMe = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, bio, github, skills } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, bio, github, skills },
+      { new: true }
+    ).select("-password");
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
