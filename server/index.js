@@ -7,6 +7,8 @@ import { Server } from "socket.io";
 import authRoutes from "./routes/authRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import joinRequestRoutes from "./routes/joinRequestRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import Message from "./models/Message.js";
 
 dotenv.config();
 
@@ -29,9 +31,31 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/joinrequests", joinRequestRoutes);
+app.use("/api/messages", messageRoutes);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
+
+  socket.on("joinRoom", (projectId) => {
+    socket.join(projectId);
+    console.log(`User joined room: ${projectId}`);
+  });
+
+  socket.on("sendMessage", async (data) => {
+    try {
+      const message = await Message.create({
+        project: data.projectId,
+        sender: data.senderId,
+        text: data.text,
+      });
+
+      const populated = await message.populate("sender", "name avatar");
+      io.to(data.projectId).emit("receiveMessage", populated);
+    } catch (error) {
+      console.log("Message error:", error);
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
   });

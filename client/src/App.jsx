@@ -9,6 +9,7 @@ import ProjectDetail from "./pages/ProjectDetail";
 import CreateProject from "./pages/CreateProject";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -30,6 +31,7 @@ function App() {
         <Route path="/create-project" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/chat/:projectId" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
       </Routes>
     </div>
   );

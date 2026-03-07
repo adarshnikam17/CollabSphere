@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Users, Github, Trash2, Send, CheckCircle, XCircle } from "lucide-react";
+import { Users, Github, Trash2, Send, CheckCircle, XCircle, MessageSquare } from "lucide-react";
 import api from "../utils/axios";
 import useAuthStore from "../store/authStore";
 import toast from "react-hot-toast";
@@ -81,6 +81,7 @@ export default function ProjectDetail() {
   return (
     <div className="min-h-screen bg-gray-950 py-12 px-4">
       <div className="max-w-4xl mx-auto">
+
         {/* Header */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 mb-6">
           <div className="flex items-start justify-between mb-4">
@@ -96,10 +97,7 @@ export default function ProjectDetail() {
               </button>
             )}
           </div>
-
           <p className="text-gray-400 mb-6 leading-relaxed">{project.description}</p>
-
-          {/* Skills */}
           <div className="mb-4">
             <p className="text-sm text-gray-500 mb-2">Skills Required</p>
             <div className="flex flex-wrap gap-2">
@@ -108,8 +106,6 @@ export default function ProjectDetail() {
               ))}
             </div>
           </div>
-
-          {/* Tech Stack */}
           {project.techStack?.length > 0 && (
             <div className="mb-6">
               <p className="text-sm text-gray-500 mb-2">Tech Stack</p>
@@ -120,8 +116,6 @@ export default function ProjectDetail() {
               </div>
             </div>
           )}
-
-          {/* Owner */}
           <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
             <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
               {project.owner?.name?.charAt(0).toUpperCase()}
@@ -158,6 +152,24 @@ export default function ProjectDetail() {
             ))}
           </div>
         </div>
+
+        {/* Team Chat Button - Members Only */}
+        {isMember && (
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-6">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <MessageSquare size={18} className="text-violet-400" />
+              Team Chat
+            </h2>
+            <p className="text-gray-400 text-sm mb-4">Chat with your team members in real-time!</p>
+            <button
+              onClick={() => navigate(`/chat/${project._id}`)}
+              className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-6 py-3 rounded-lg transition"
+            >
+              <MessageSquare size={16} />
+              Open Team Chat 💬
+            </button>
+          </div>
+        )}
 
         {/* Join Request */}
         {user && !isOwner && !isMember && project.status === "open" && (
@@ -215,6 +227,7 @@ export default function ProjectDetail() {
             </div>
           </div>
         )}
+
       </div>
     </div>
   );
