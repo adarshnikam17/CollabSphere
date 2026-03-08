@@ -15,19 +15,29 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://getcollabsphere.vercel.app",
+  "https://collab-sphere-wheat.vercel.app",
+];
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   },
 });
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({ message: "CollabSphere API running! 🚀" });
 });
+
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/joinrequests", joinRequestRoutes);
@@ -48,7 +58,6 @@ io.on("connection", (socket) => {
         sender: data.senderId,
         text: data.text,
       });
-
       const populated = await message.populate("sender", "name avatar");
       io.to(data.projectId).emit("receiveMessage", populated);
     } catch (error) {
