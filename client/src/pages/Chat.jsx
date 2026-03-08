@@ -45,12 +45,12 @@ export default function Chat() {
   };
 
   const setupSocket = () => {
-    socket = io("http://localhost:5000");
-    socket.emit("joinRoom", projectId);
-    socket.on("receiveMessage", (message) => {
-      setMessages((prev) => [...prev, message]);
-    });
-  };
+  socket = io(import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:5000");
+  socket.emit("joinRoom", projectId);
+  socket.on("receiveMessage", (message) => {
+    setMessages((prev) => [...prev, message]);
+  });
+};
 
   const sendMessage = () => {
     if (!text.trim()) return;
