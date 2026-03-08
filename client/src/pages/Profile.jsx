@@ -26,6 +26,13 @@ export default function Profile() {
     }
   };
 
+  const addSkillBtn = () => {
+    if (skillInput.trim() && !skills.includes(skillInput.trim())) {
+      setSkills([...skills, skillInput.trim()]);
+      setSkillInput("");
+    }
+  };
+
   const removeSkill = (skill) => setSkills(skills.filter((s) => s !== skill));
 
   const handleSubmit = async (e) => {
@@ -45,7 +52,6 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-gray-950 py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="w-20 h-20 rounded-full bg-violet-600 flex items-center justify-center text-3xl font-bold text-white mx-auto mb-4">
             {user?.name?.charAt(0).toUpperCase()}
@@ -61,49 +67,36 @@ export default function Profile() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Full Name</label>
-              <input
-                type="text"
-                value={form.name}
+              <input type="text" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition"
-                required
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-violet-500 transition" required />
             </div>
-
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Bio</label>
-              <textarea
-                placeholder="Tell developers about yourself..."
-                value={form.bio}
+              <textarea placeholder="Tell developers about yourself..." value={form.bio}
                 onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                rows={3}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition resize-none"
-              />
+                rows={3} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition resize-none" />
             </div>
-
             <div>
               <label className="text-sm text-gray-400 mb-1 block flex items-center gap-2">
                 <Github size={14} /> GitHub URL
               </label>
-              <input
-                type="text"
-                placeholder="https://github.com/username"
-                value={form.github}
+              <input type="text" placeholder="https://github.com/username" value={form.github}
                 onChange={(e) => setForm({ ...form, github: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" />
             </div>
-
             <div>
-              <label className="text-sm text-gray-400 mb-1 block">Skills <span className="text-violet-400">(Press Enter)</span></label>
-              <input
-                type="text"
-                placeholder="React, Node.js, Python..."
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                onKeyDown={addSkill}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-              />
+              <label className="text-sm text-gray-400 mb-1 block">Skills</label>
+              <div className="flex gap-2">
+                <input type="text" placeholder="React, Node.js, Python..." value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={addSkill}
+                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" />
+                <button type="button" onClick={addSkillBtn}
+                  className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-3 rounded-lg transition font-semibold">
+                  + Add
+                </button>
+              </div>
               <div className="flex flex-wrap gap-2 mt-2">
                 {skills.map((skill) => (
                   <span key={skill} className="flex items-center gap-1 bg-violet-600/20 text-violet-300 text-xs px-3 py-1 rounded-full border border-violet-500/30">
@@ -113,12 +106,8 @@ export default function Profile() {
                 ))}
               </div>
             </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition"
-            >
+            <button type="submit" disabled={loading}
+              className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition">
               <Save size={16} />
               {loading ? "Saving..." : "Save Profile"}
             </button>

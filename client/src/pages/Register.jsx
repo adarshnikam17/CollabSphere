@@ -16,9 +16,14 @@ export default function Register() {
   const addSkill = (e) => {
     if (e.key === "Enter" && skillInput.trim()) {
       e.preventDefault();
-      if (!skills.includes(skillInput.trim())) {
-        setSkills([...skills, skillInput.trim()]);
-      }
+      if (!skills.includes(skillInput.trim())) setSkills([...skills, skillInput.trim()]);
+      setSkillInput("");
+    }
+  };
+
+  const addSkillBtn = () => {
+    if (skillInput.trim() && !skills.includes(skillInput.trim())) {
+      setSkills([...skills, skillInput.trim()]);
       setSkillInput("");
     }
   };
@@ -55,57 +60,40 @@ export default function Register() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Full Name</label>
-              <input
-                type="text"
-                placeholder="Adarsh Nikam"
-                value={form.name}
+              <input type="text" placeholder="Adarsh Nikam" value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-                required
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" required />
             </div>
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Email</label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={form.email}
+              <input type="email" placeholder="you@example.com" value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-                required
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" required />
             </div>
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={form.password}
+              <input type="password" placeholder="••••••••" value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-                required
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" required />
             </div>
             <div>
               <label className="text-sm text-gray-400 mb-1 block">GitHub URL (optional)</label>
-              <input
-                type="text"
-                placeholder="https://github.com/username"
-                value={form.github}
+              <input type="text" placeholder="https://github.com/username" value={form.github}
                 onChange={(e) => setForm({ ...form, github: e.target.value })}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-              />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" />
             </div>
             <div>
-              <label className="text-sm text-gray-400 mb-1 block">Skills (Press Enter to add)</label>
-              <input
-                type="text"
-                placeholder="React, Node.js, Python..."
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                onKeyDown={addSkill}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition"
-              />
+              <label className="text-sm text-gray-400 mb-1 block">Skills</label>
+              <div className="flex gap-2">
+                <input type="text" placeholder="React, Node.js, Python..." value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={addSkill}
+                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition" />
+                <button type="button" onClick={addSkillBtn}
+                  className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-3 rounded-lg transition font-semibold">
+                  + Add
+                </button>
+              </div>
               <div className="flex flex-wrap gap-2 mt-2">
                 {skills.map((skill) => (
                   <span key={skill} className="flex items-center gap-1 bg-violet-600/20 text-violet-300 text-xs px-3 py-1 rounded-full border border-violet-500/30">
@@ -117,28 +105,18 @@ export default function Register() {
             </div>
             <div>
               <label className="text-sm text-gray-400 mb-1 block">Bio (optional)</label>
-              <textarea
-                placeholder="Tell us about yourself..."
-                value={form.bio}
+              <textarea placeholder="Tell us about yourself..." value={form.bio}
                 onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                rows={3}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition resize-none"
-              />
+                rows={3} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition resize-none" />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition"
-            >
+            <button type="submit" disabled={loading}
+              className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition">
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </form>
-
           <p className="text-center text-gray-400 text-sm mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="text-violet-400 hover:text-violet-300">
-              Login here
-            </Link>
+            <Link to="/login" className="text-violet-400 hover:text-violet-300">Login here</Link>
           </p>
         </div>
       </div>
