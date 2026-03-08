@@ -109,19 +109,18 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { step: "01", icon: Code2, title: "Post Your Project", desc: "Share your idea, required skills, and team size. Let developers know what you're building.", color: "violet" },
-                { step: "02", icon: Users, title: "Receive Requests", desc: "Developers interested in your project will send join requests with their skills and message.", color: "blue" },
-                { step: "03", icon: Rocket, title: "Build Together", desc: "Accept teammates, collaborate in real-time chat, and build your project as a team.", color: "green" },
-              ].map(({ step, icon: Icon, title, desc, color }) => (
-                <div key={step} className="relative bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
-                  <div className="absolute -top-4 left-8 text-5xl font-bold text-gray-800">{step}</div>
-                  <div className={`w-14 h-14 rounded-2xl bg-${color}-600/20 flex items-center justify-center mx-auto mb-4 mt-4`}>
-                    <Icon className={`text-${color}-400`} size={26} />
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{desc}</p>
-                </div>
-              ))}
+  { icon: Code2, title: "Post Your Project", desc: "Share your idea, required skills, and team size. Let developers know what you're building.", color: "violet" },
+  { icon: Users, title: "Receive Requests", desc: "Developers interested in your project will send join requests with their skills and message.", color: "blue" },
+  { icon: Rocket, title: "Build Together", desc: "Accept teammates, collaborate in real-time chat, and build your project as a team.", color: "green" },
+].map(({ icon: Icon, title, desc, color }) => (
+  <div key={title} className="relative bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center">
+    <div className={`w-14 h-14 rounded-2xl bg-${color}-600/20 flex items-center justify-center mx-auto mb-4`}>
+      <Icon className={`text-${color}-400`} size={26} />
+    </div>
+    <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+    <p className="text-gray-400 leading-relaxed">{desc}</p>
+  </div>
+))}
             </div>
           </div>
 
